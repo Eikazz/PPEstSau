@@ -6,6 +6,7 @@ public class NombreAlea {
 	private int lenombrealea;
 	private Random r = new Random();
 	private Random r2=new Random();
+	private Random r3=new Random();
 	
 	public NombreAlea(){
 		
