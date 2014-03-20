@@ -5,11 +5,10 @@ import java.util.Random;
 public class NombreAlea {
 	private int lenombrealea;
 	private Random r = new Random();
-	private Random r2=new Random();
 	
 	public NombreAlea(){
 		
-		this.lenombrealea=r.nextInt(1000000)+1 ;
+		this.lenombrealea=r.nextInt(10)+1 ;
 	}
 	
 	public int getNombreAlea(){
@@ -17,6 +16,6 @@ public class NombreAlea {
 	}
 	
 	public void ChangeAlea(){
-		this.lenombrealea=r.nextInt(1000000)+1;
+		this.lenombrealea=r.nextInt(10)+1;
 	}
 }

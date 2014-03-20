@@ -1,36 +1,47 @@
 package vinson;
 import java.sql.*;
 
-
 public class ProgClient {
 	
-	 public static void main(String[] args) {
-         Connection conn = null;
-         Statement stmt = null;
-         ResultSet rs = null;
-         
-         ResultSet resultatDest;
-         Connection con;
-         String URL = "jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=TEST";
-         String Sql = "SELECT * FROM CLIENTS";
-         try {
-         	Class.forName("com.microsoft.jdbc.sqlserver.SQLServerDriver");
-                 con = DriverManager.getConnection(URL,"sa",""); 
-                 Statement requete = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-                 resultatDest = requete.executeQuery(Sql);}
-                 
- catch (Exception e) {
-               System.out.println(e.getMessage());
-               e.printStackTrace();
-         } finally {
-               if (rs != null)
-                     try { rs.close(); } catch (Exception e) { }
-               if (stmt != null)
-                     try { stmt.close(); } catch (Exception e) { }
-               if (conn != null)
-                     try { conn.close(); } catch (Exception e) { }
-         	}
-         }
-	 }
-
-
+	 public static void main(String args[]) {
+		 
+		   String url = "jdbc:odbc:TEST";
+		   Connection con = null;
+		   NombreAlea unNombreAlea=new NombreAlea();
+		   int numAjout=unNombreAlea.getNombreAlea();
+		   boolean verif=false;
+		   
+		   try {Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+		     	con = DriverManager.getConnection(url,"","");
+		        Statement requete = con.createStatement();
+		        
+		        ResultSet resultatDest = requete.executeQuery("select * from NombreAlea");
+		        
+		        while (resultatDest.next() && verif==false) {
+		        	if (numAjout==resultatDest.getInt(1)){
+		        		verif=true;
+		        	}
+                    };
+			if (verif==false){
+		           int  NbIns ;
+		              NbIns = requete.executeUpdate("INSERT INTO NombreAlea (NombreAlea) VALUES ("+numAjout+") ");
+		            System.out.println(NbIns+" ligne insérée");}
+			else
+			{
+				
+				unNombreAlea.ChangeAlea();
+				numAjout=unNombreAlea.getNombreAlea();
+				while(resultatDest.next() && verif==true)
+				{}
+			}
+		            
+		        	
+		       }
+		   
+		  catch(Exception e) {  System.out.println("Exception"+e);  }
+		  finally {
+		     try {con.close();}
+		    catch(SQLException e) {e.printStackTrace();}
+		    }
+		}
+		}
