@@ -7,22 +7,19 @@ public class ProgClient {
 	
 	 public static void main(String args[]) {
 		 
-		 
-		   String url = "jdbc:odbc:TEST";
-		   Connection con = null;
+	
 		   NombreAlea unNombreAlea=new NombreAlea();
 		   int numAjout=unNombreAlea.getNombreAlea();
 		   boolean trouver;
-		   int taille=10;
+		   int taille=1000000;
 		   
-		   try {Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-		     	con = DriverManager.getConnection(url,"","");
-		        Statement requete = con.createStatement();
+		     	try{
+		     		Statement requete =getConnexion().createStatement();
 		        
-		        ResultSet resultatDest = requete.executeQuery("select * from NombreAlea");
+		        ResultSet resultatDest = requete.executeQuery("select * from PALETTE");
 		        
 		        ArrayList ListNombre = new ArrayList() ; 
-
+		
 		        while(resultatDest.next()) {
 
 		        	ListNombre.add(resultatDest.getInt(1)); 
@@ -45,7 +42,7 @@ public class ProgClient {
 			        }
 			        while(trouver);  
 			        int NbIns;
-			        NbIns = requete.executeUpdate("INSERT INTO NombreAlea (NombreAlea) VALUES ("+numAjout+") ");
+			        NbIns = requete.executeUpdate("INSERT INTO PALETTE (NUMPAL,NUMCLI) VALUES ("+numAjout+",'C1') ");
 			        System.out.println(NbIns+" ligne insérée");
 		        }
 		        else{
@@ -55,9 +52,27 @@ public class ProgClient {
 		       }
 		   
 		  catch(Exception e) {  System.out.println("Exception"+e);  }
-		  finally {
-		     try {con.close();}
-		    catch(SQLException e) {e.printStackTrace();}
-		    }
+		
 		}
+	 public static Connection getConnexion() {
+	        Connection laConnexion = null;
+	 
+	        // Charger le driver pour SQL Server 2005
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            // Etablir la connexion vers la base de données
+	            String url = "jdbc:sqlserver://HOS5UC18BIS;database=BDD_PPE4_GESTPALETTE;integratedSecurity=true;";
+	                        // "user=test;password=testtest;";
+	            
+	                laConnexion = DriverManager.getConnection(url);
+			        }
+	      
+	         catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+			
+	        return laConnexion;
+	    }
 	}

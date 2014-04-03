@@ -9,7 +9,7 @@ public class NombreAlea {
 	
 	public NombreAlea(){
 		
-		this.lenombrealea=r.nextInt(10)+1 ;
+		this.lenombrealea=r.nextInt(999999)+1 ;
 	}
 	
 	public int getNombreAlea(){
@@ -17,6 +17,6 @@ public class NombreAlea {
 	}
 	
 	public void ChangeAlea(){
-		this.lenombrealea=r.nextInt(10)+1;
+		this.lenombrealea=r.nextInt(999999)+1;
 	}
 }
