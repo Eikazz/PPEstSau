@@ -10,7 +10,8 @@ public class ProgClient {
 	
 		   NombreAlea unNombreAlea=new NombreAlea();
 		   int numAjout=unNombreAlea.getNombreAlea();
-		   boolean trouver;
+		   boolean trouver; 
+		   
 		   int taille=1000000;
 		   
 		     	try{
@@ -19,11 +20,18 @@ public class ProgClient {
 		        ResultSet resultatDest = requete.executeQuery("select * from PALETTE");
 		        
 		        ArrayList ListNombre = new ArrayList() ; 
-		
+		        
+		        /**On parcour la table, et ajoutons les nombres présent dans un ArrayList
+		          
+		         */
 		        while(resultatDest.next()) {
 
 		        	ListNombre.add(resultatDest.getInt(1)); 
 		        }
+		        /** Si le nombre de nombreAlea dans la base n'est pas égale a notre variable taille
+		         * Dans le cas contraire on gère le fait que la base soit "remplit" dans le Else
+		         */
+		        
 		        if (ListNombre.size()!=taille)
 		        {
 			        do
@@ -31,6 +39,9 @@ public class ProgClient {
 			        	trouver=false;
 				        for(int i=0;i<ListNombre.size();i++)
 				        {
+				        	/**on Parcour les nombres présent dans l'arrayList, si le nombre généré
+				        	 est déja présent, on en re-génère un nouveau que l'on va aussi comparer aux nombre présent
+				        	*/
 				        	if((ListNombre.get(i).equals(numAjout)))
 				        	{
 				        		i=ListNombre.size();
@@ -54,15 +65,19 @@ public class ProgClient {
 		  catch(Exception e) {  System.out.println("Exception"+e);  }
 		
 		}
+	 
+	 /** Permet la connexion
+	  
+	  */
 	 public static Connection getConnexion() {
 	        Connection laConnexion = null;
 	 
-	        // Charger le driver pour SQL Server 2005
+	       
 	        try {
 	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 	            // Etablir la connexion vers la base de données
 	            String url = "jdbc:sqlserver://HOS5UC18BIS;database=BDD_PPE4_GESTPALETTE;integratedSecurity=true;";
-	                        // "user=test;password=testtest;";
+	                     
 	            
 	                laConnexion = DriverManager.getConnection(url);
 			        }
